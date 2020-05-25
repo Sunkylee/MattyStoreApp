@@ -1,6 +1,6 @@
 using System;
 
-namespace MattyStoreApp.Models
+namespace MattyStoreApp.Models.ViewModels
 {
     public class ErrorViewModel
     {

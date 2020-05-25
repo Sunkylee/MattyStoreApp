@@ -5,10 +5,11 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
-using MattyStoreApp.Models;
+using MattyStoreApp.Models.ViewModels;
 
-namespace MattyStoreApp.Controllers
+namespace MattyStoreApp.Areas.Customer.Controllers
 {
+    [Area("Customer")]
     public class HomeController : Controller
     {
         private readonly ILogger<HomeController> _logger;
