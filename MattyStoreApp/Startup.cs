@@ -12,6 +12,8 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using MattyStoreApp.DataAccess.Data;
+using MattyStoreApp.DataAccess.Repository;
+using MattyStoreApp.DataAccess.Repository.IRepository;
 
 namespace MattyStoreApp
 {
@@ -32,7 +34,7 @@ namespace MattyStoreApp
                     Configuration.GetConnectionString("DefaultConnection")));
             services.AddDefaultIdentity<IdentityUser>()
                 .AddEntityFrameworkStores<ApplicationDbContext>();
-
+            services.AddScoped<IUnitOfWork, UnitOfWork>();
             //services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true)
             //   .AddEntityFrameworkStores<ApplicationDbContext>();
 
