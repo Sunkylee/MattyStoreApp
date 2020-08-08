@@ -13,7 +13,7 @@ function loadDataTable() {
 
         ajax:
         {
-            url : "/Admin/Category/GetAll"
+           url: "/Admin/Category/GetAll"
         },
 
         columns: [

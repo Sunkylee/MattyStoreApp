@@ -4,6 +4,8 @@ using System.Linq;
 using System.Threading.Tasks;
 using MattyStoreApp.DataAccess.Repository.IRepository;
 using MattyStoreApp.Models;
+using MattyStoreApp.Utility;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 
@@ -11,6 +13,8 @@ namespace MattyStoreApp.Areas.Admin.Controllers
 {
 
       [Area("Admin")]
+      [Authorize(Roles = SD.Role_Admin)]
+
     public class CategoryController : Controller
     {
         private readonly IUnitOfWork _unitOfWork;
@@ -72,14 +76,6 @@ namespace MattyStoreApp.Areas.Admin.Controllers
             return View(category);
 
         }
-
-
-
-
-
-
-
-
 
         #region API CALLS
 

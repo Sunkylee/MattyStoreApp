@@ -14,6 +14,8 @@ using Microsoft.Extensions.Hosting;
 using MattyStoreApp.DataAccess.Data;
 using MattyStoreApp.DataAccess.Repository;
 using MattyStoreApp.DataAccess.Repository.IRepository;
+using MattyStoreApp.Utility;
+using Microsoft.AspNetCore.Identity.UI.Services;
 
 namespace MattyStoreApp
 {
@@ -32,16 +34,40 @@ namespace MattyStoreApp
             services.AddDbContext<ApplicationDbContext>(options =>
                 options.UseSqlServer(
                     Configuration.GetConnectionString("DefaultConnection")));
-            services.AddDefaultIdentity<IdentityUser>()
+            services.AddIdentity<IdentityUser, IdentityRole>().AddDefaultTokenProviders()
                 .AddEntityFrameworkStores<ApplicationDbContext>();
+            services.AddSingleton<IEmailSender, EmailSender>();
+            services.Configure<EmailOptions>(Configuration);
             services.AddScoped<IUnitOfWork, UnitOfWork>();
             //services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true)
             //   .AddEntityFrameworkStores<ApplicationDbContext>();
 
-
             services.AddControllersWithViews().AddRazorRuntimeCompilation();
             services.AddRazorPages();
+
+            services.ConfigureApplicationCookie(options =>
+            {
+                options.LoginPath = $"/Identity/Account/Login";
+                options.LogoutPath = $"/Identity/Account/Logout";
+                options.AccessDeniedPath = $"/Identity/Account/AccessDenied";
+            });
+
+            services.AddAuthentication().AddFacebook(options =>
+            {
+                options.AppId = "1518694618333277";
+                options.AppSecret = "2d4737d152ab98d9051c23dc1dda2f81";
+
+            });
+            services.AddAuthentication().AddGoogle(options =>
+            {
+                options.ClientId = "328988176764-kcst364ek8c7ede4evq9v60sjqav2hg1.apps.googleusercontent.com";
+                options.ClientSecret = "ubt9jcSsCQdHmc5Q0Y7QcL2i";
+
+            });
+
+
         }
+
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
