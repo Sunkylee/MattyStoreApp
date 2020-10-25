@@ -1,5 +1,7 @@
 ﻿<!DOCTYPE html>
 @using MattyStoreApp.Utility
+@using Microsoft.AspNetCore.Http
+@inject IHttpContextAccessor HttpContextAccessor
 <html lang="en">
 <head>
     <meta charset="utf-8" />
@@ -29,6 +31,7 @@
                         <li class="nav-item">
                             <a class="nav-link" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
                         </li>
+
                         @if (User.IsInRole(SD.Role_Admin))
                         {
                             <li class="nav-item dropdown">
@@ -44,7 +47,8 @@
 
                         }
 
-                        @if (User.IsInRole(SD.Role_Admin) ||  User.IsInRole(SD.Role_Employee))
+
+                        @if (User.IsInRole(SD.Role_Admin) || User.IsInRole(SD.Role_Employee))
                         {
 
                             <li class="nav-item dropdown">
@@ -59,6 +63,43 @@
 
                         }
 
+                        <li class="nav-item">
+                            <a class="nav-link" asp-area="Admin" asp-controller="Order" asp-action="Index">
+                                @if (User.IsInRole(SD.Role_Employee) || User.IsInRole(SD.Role_Admin))
+                                {
+                                    <span>Manage Orders</span>
+                                }
+                                else
+                                {
+                                    <span>Order History</span>
+                                }
+
+
+                            </a>
+                        </li>
+
+                        @if (HttpContextAccessor.HttpContext.Session.GetInt32(SD.ssShoppingCart) != null)
+                        {
+                            <li style="color:white">
+                                <a asp-area="Customer" asp-controller="Cart" asp-action="Index" class="nav-link">
+                                    @{
+                                        var count = HttpContextAccessor.HttpContext.Session.GetInt32(SD.ssShoppingCart);
+                                    }
+                                    <i class="fas fa-shopping-cart">
+                                    </i> &nbsp; (@count)
+                                </a>
+                            </li>
+                        }
+                        else
+                        {
+                            <li style="color:white">
+                                <a href="#" class="nav-link">
+                                    <i class="fas fa-shopping-cart">
+                                    </i> &nbsp; (0)
+                                </a>
+                            </li>
+
+                        }
                     </ul>
                 </div>
             </div>
@@ -75,7 +116,8 @@
             &copy; 2020 - MattyStoreApp
         </div>
     </footer>
-    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/jquery/dist/jquery.js"></script>
+    @*<script src="~/lib/jquery/dist/jquery.min.js"></script>*@
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>
     <script src="~/js/jquery-ui.min.js"></script>

@@ -20,20 +20,19 @@ namespace MattyStoreApp.Utility
         }
 
 
-
         public Task SendEmailAsync(string email, string subject, string htmlMessage)
         {
             return Execute(_emailOptions.SendGridKey, subject, htmlMessage, email);
         }
 
        private Task Execute(string sendGridKey, string subject, string message, string email)
-        {   
+       {   
             var client = new SendGridClient(sendGridKey);
             var from = new EmailAddress("onibuzz102@gmail.com", "Matty Store APP");      
             var to = new EmailAddress(email, "End User");        
             var msg = MailHelper.CreateSingleEmail(from, to, subject, "", message);
             return  client.SendEmailAsync(msg);
-        }
+       }
 
     }
 }

@@ -8,20 +8,19 @@ using System.Text;
 
 namespace MattyStoreApp.DataAccess.Repository
 {
-    public class CategoryRepository : Repository<Category>, ICategoryRepository
+    public class ShoppingCartRepository : Repository<ShoppingCart>, IShoppingCartRepository
     {
 
         private readonly ApplicationDbContext _db;
 
-        public CategoryRepository(ApplicationDbContext db) : base(db)
+        public ShoppingCartRepository(ApplicationDbContext db) : base(db)
         {
             _db = db;
         }
 
-        public void Update(Category category)
+        public void Update(ShoppingCart shoppingCart)
         {
-            var objFromDb = _db.Categories.FirstOrDefault(x => x.Id == category.Id);
-            objFromDb.Name = category.Name;
+            _db.Update(shoppingCart);
 
            // _db.SaveChanges();
         }

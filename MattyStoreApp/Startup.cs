@@ -16,6 +16,8 @@ using MattyStoreApp.DataAccess.Repository;
 using MattyStoreApp.DataAccess.Repository.IRepository;
 using MattyStoreApp.Utility;
 using Microsoft.AspNetCore.Identity.UI.Services;
+using MattyStoreApp.DataAccess.Initializer;
+using Stripe;
 
 namespace MattyStoreApp
 {
@@ -38,7 +40,11 @@ namespace MattyStoreApp
                 .AddEntityFrameworkStores<ApplicationDbContext>();
             services.AddSingleton<IEmailSender, EmailSender>();
             services.Configure<EmailOptions>(Configuration);
+            services.Configure<StripSettings>(Configuration.GetSection("Stripe"));
+
             services.AddScoped<IUnitOfWork, UnitOfWork>();
+           // services.AddScoped<IDbInitializer, DbInitializer>();
+
             //services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true)
             //   .AddEntityFrameworkStores<ApplicationDbContext>();
 
@@ -64,12 +70,19 @@ namespace MattyStoreApp
                 options.ClientSecret = "ubt9jcSsCQdHmc5Q0Y7QcL2i";
 
             });
+            services.AddSession(options => {
 
+                options.IdleTimeout = TimeSpan.FromMinutes(30);
+                options.Cookie.HttpOnly = true;
+                options.Cookie.IsEssential = true;
+            
+            });
 
         }
 
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
+      //  IApplicationBuilder app, IWebHostEnvironment env, IDbInitializer dbInitializer
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
             if (env.IsDevelopment())
@@ -87,9 +100,11 @@ namespace MattyStoreApp
             app.UseStaticFiles();
 
             app.UseRouting();
-
+            StripeConfiguration.ApiKey = Configuration.GetSection("Stripe")["SecretKey"];
+            app.UseSession();
             app.UseAuthentication();
             app.UseAuthorization();
+           // dbInitializer.Initialize();
 
             app.UseEndpoints(endpoints =>
             {

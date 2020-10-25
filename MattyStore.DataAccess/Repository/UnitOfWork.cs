@@ -19,6 +19,9 @@ namespace MattyStoreApp.DataAccess.Repository
             Product = new ProductRepository(_db);
             Company = new CompanyRepository(_db);
             ApplicationUser = new ApplicationUserRepository(_db);
+            ShoppingCart = new ShoppingCartRepository(_db);
+            OrderDetails = new OrderDetailsRepository(_db);
+            OrderHeader = new OrderHeaderRepository(_db);
             SP_Call = new SP_Call(_db);
         }
 
@@ -30,7 +33,9 @@ namespace MattyStoreApp.DataAccess.Repository
 
         public ICompanyRepository Company { get; private set; }
         public IApplicationUserRepository ApplicationUser { get; private set; }
-
+        public IShoppingCartRepository ShoppingCart { get; private set; }
+        public IOrderDetailsRepository OrderDetails { get; private set; }
+        public IOrderHeaderRepository OrderHeader { get; private set; }
 
         public ISP_Call SP_Call { get; private set; }
 
