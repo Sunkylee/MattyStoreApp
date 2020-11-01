@@ -60,14 +60,14 @@ namespace MattyStoreApp
 
             services.AddAuthentication().AddFacebook(options =>
             {
-                options.AppId = "1518694618333277";
-                options.AppSecret = "2d4737d152ab98d9051c23dc1dda2f81";
+                options.AppId = "removed for privacy reason";
+                options.AppSecret = "removed for privacy reason";
 
             });
             services.AddAuthentication().AddGoogle(options =>
             {
-                options.ClientId = "328988176764-kcst364ek8c7ede4evq9v60sjqav2hg1.apps.googleusercontent.com";
-                options.ClientSecret = "ubt9jcSsCQdHmc5Q0Y7QcL2i";
+                options.ClientId = "removed for privacy reason";
+                options.ClientSecret = "removed for privacy reason";
 
             });
             services.AddSession(options => {
